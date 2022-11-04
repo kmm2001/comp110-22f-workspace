@@ -7,9 +7,9 @@ __author__ = "730314205"
 from csv import DictReader
 
 
-def read_csv_rows(filename: str) -> list[dict[str,str]]:
-    """Read the rows of a csv into a 'table.'"""
-    result: list[dict[str,str]] = []
+def read_csv_rows(filename: str) -> list[dict[str, str]]:
+    """Read the rows of a csv into a 'table'."""
+    result: list[dict[str, str]] = []
     file_handle = open(filename, "r", encoding="utf8")
     csv_reader = DictReader(file_handle)
     for row in csv_reader:
@@ -18,7 +18,7 @@ def read_csv_rows(filename: str) -> list[dict[str,str]]:
     return result
 
 
-def column_values(table: list[dict[str,str]], column: str) -> list[str]:
+def column_values(table: list[dict[str, str]], column: str) -> list[str]:
     """Produce a list[str] of all values in a single column."""
     result: list[str] = []
     for row in table:
@@ -28,23 +28,11 @@ def column_values(table: list[dict[str,str]], column: str) -> list[str]:
 
 
 def columnar(row_table: list[dict[str, str]]) -> dict[str, list[str]]:
-    """"Transforms a row-oriented table to a column-oriented table."""
+    """Transforms a row-oriented table to a column-oriented table."""
     result: dict[str, list[str]] = {}
     first_row: dict[str, str] = row_table[0]
     for column in first_row:
         result[column] = column_values(row_table, column)
-    return result
-
-
-def head1(table: dict[str, list[str]], n: int) -> dict[str, list[str]]:
-    """Produce a new column-based table with only the first n rows of data for each column."""
-    result: dict[str, list[str]] = {}
-    first_row: dict[str, str] = table[0]
-    for column in first_row:
-        values: list[str] = []
-        for item in column:
-            values.append(item)
-            result[column] = values
     return result
 
 
@@ -71,15 +59,15 @@ def select(data_table: dict[str, list[str]], names: list[str]) -> dict[str, list
     return result
 
 
-def concat(table1: dict[str, list[int]], table2: dict[str, list[int]]) -> dict[str, list[int]]:
+def concat(table1: dict[str, list[str]], table2: dict[str, list[str]]) -> dict[str, list[str]]:
     """Produce a new column-based table with two column-based tables combined."""
-    result: dict[str, list[int]] = {}
+    result: dict[str, list[str]] = {}
     column: str = ""
     for column in table1:
         result[column] = table1[column]
     for column in table2:
-        if table2[column] in result:
-            result[column] = result + table2[column]
+        if column in result:
+            result[column] += table2[column]
         else:
             result[column] = table2[column]
     return result
